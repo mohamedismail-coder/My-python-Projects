@@ -1,0 +1,33 @@
+from tkinter import *
+from tkinter import filedialog
+from pygame import mixer
+
+class Music_Player():
+    def __init__(self, window):
+        window.geometry('400x100'); window.title('rx player'); window.resizable(1,1)
+        Load = Button(window, text='Load', width=10, font=('Times',10), fg='cyan', command=self.load)
+        Play = Button(window, text='Play', width=10, font=('Times',10),bg = 'blue', command=self.play)
+        Pause = Button(window, text='Pause', width=10, font=('Times',10), command=self.pause)
+        Stop = Button(window, text='Stop', width=10, font=('Times', 10), command=self.stop)
+        Load.place(x=5,y=30); Play.place(x=120,y=30); Pause.place(x=220,y=30); Stop.place(x=110,y=70)
+        self.music_file = False
+        self.playing_state = False
+    def load(self):
+        self.music_file = filedialog.askopenfilename()
+    def play(self):
+        if self.music_file:
+            mixer.init()
+            mixer.music.load(self.music_file)
+            mixer.music.play()
+    def pause(self):
+        if not self.playing_state:
+            mixer.music.pause()
+            self.playing_state = True
+        else:
+            mixer.music.unpause()
+            self.playing_state = False
+    def stop(self):
+        mixer.music.stop()
+root = Tk()
+app = Music_Player(root)
+root.mainloop()
